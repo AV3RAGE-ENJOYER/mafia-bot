@@ -12,6 +12,7 @@ class DailyUser:
     async def __call__(self, handler, event, data):
         if not (await self.redis.sismember("daily_users", event.from_user.id)):
             await self.redis.sadd("daily_users", event.from_user.id)
-            self.kafka.produce(topic="daily_users", value=json.dumps({"bot_type": self.BOT_TYPE, "user": event.from_user.id}).encode())
+            daily_users = await self.redis.smembers("daily_users")
+            self.kafka.produce(topic="daily_users", value=json.dumps({"bot_type": self.BOT_TYPE, "daily_users": len(daily_users)}).encode())
 
         return await handler(event, data)

@@ -17,13 +17,9 @@ client_router = Router()
 @client_router.message(CommandStart())
 @client_router.message(Command("help"))
 async def message_handler(message: Message, responses: dict, db: PostgresDatabase, kafka: Producer):
-    if not db.check_user(message.from_user.id):
-        db.add_user(message.from_user.id, message.from_user.username)
+    res = f"Привет, {message.from_user.first_name}! Я чат бот по игре: Магфия ✨🧙‍♂️ Я помогу тебе разобраться в правилах игры, расскажу много интересного о вселенной Гарри Поттера, чтобы познакомить с миром волшебства и сделать твой игровой процесс незабываемым ଘ(∩^o^)⊃━☆\nС чего начнем ?"
 
-        user_count = db.count_users()
-        kafka.produce(topic="users", value=json.dumps({"bot_type": BOT_TYPE, "user_count": user_count}).encode())
-
-    await message.answer(text=responses["start"], reply_markup=kb_client)
+    await message.answer(text=res, reply_markup=kb_client)
     
     await message.answer_sticker(
         sticker="CAACAgIAAxkBAAEKAolk2QKfqiwBdcpNK0oqU2Y5Mnrm2QACzQIAAs9fiwdR72f8Nh_oNjAE"
@@ -79,9 +75,11 @@ async def challenges(message: Message, responses: dict):
 
 # CALLBACK
 
-@client_router.callback_query(F.data == "call_check")
+@client_router.callback_query(F.data == "sub_done")
 async def call_check(callback: CallbackQuery, responses: dict):
-    await callback.message.answer(text=responses["sub_done"], reply_keyboard=kb_client)
+    res = f"Привет, {callback.from_user.first_name}! Я чат бот по игре: Магфия ✨🧙‍♂️ Я помогу тебе разобраться в правилах игры, расскажу много интересного о вселенной Гарри Поттера, чтобы познакомить с миром волшебства и сделать твой игровой процесс незабываемым ଘ(∩^o^)⊃━☆\nС чего начнем ?"
+
+    await callback.message.answer(text=res, reply_keyboard=kb_client)
     await callback.message.answer_sticker(
         sticker="CAACAgIAAxkBAAEKAolk2QKfqiwBdcpNK0oqU2Y5Mnrm2QACzQIAAs9fiwdR72f8Nh_oNjAE"
     )

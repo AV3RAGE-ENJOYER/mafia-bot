@@ -61,8 +61,6 @@ async def show_statistics(message: Message, db: PostgresDatabase, redis: Redis):
     oldest_user = min(users)
     newest_user = max(users)
 
-    print(oldest_user.username)
-
     res = f"👥 Количество пользователей: {len(users)}\n👥 Количество пользователей за день: {len(daily_users)}\n\n👴🏻 Самый старый пользователь: @{oldest_user.username} ({oldest_user.convert_to_date()})\n👱‍♂️ Самый новый пользователь: @{newest_user.username} ({newest_user.convert_to_date()})"
     
     await message.answer(

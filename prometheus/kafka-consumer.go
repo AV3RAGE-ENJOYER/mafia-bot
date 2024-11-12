@@ -22,7 +22,7 @@ type UserCount struct {
 
 type DailyUser struct {
 	BotType string `json:"bot_type"`
-	User    int    `json:"user"`
+	Value   int    `json:"daily_users"`
 }
 
 func ConnectConsumer(brokers []string) (sarama.Consumer, error) {
@@ -139,11 +139,11 @@ func main() {
 					continue
 				}
 
-				m.DailyUsers.Inc()
+				m.DailyUsers.Set(float64(dailyUser.Value))
 
 				log.Printf("Received new Daily User: Bot(%s) | User(%d) | Topic(%s)\n",
 					dailyUser.BotType,
-					dailyUser.User,
+					dailyUser.Value,
 					string(msg.Topic))
 			}
 		}

@@ -14,6 +14,7 @@ from aiogram.fsm.storage.redis import RedisStorage
 
 from responses import responses
 from handlers import client, admin
+from middlewares.add_user import AddUser
 from middlewares.new_daily_user import DailyUser
 from middlewares.check_subscription import SubscriptionMiddleware
 from database.controller import PostgresDatabase
@@ -41,6 +42,9 @@ dp = Dispatcher(
 async def main() -> None:
     user_count = postgres_db.count_users()
 
+    if user_count == None:
+        user_count = 0
+
     await redis_conn.set("user_count", user_count)
 
     dp.include_routers(
@@ -48,8 +52,9 @@ async def main() -> None:
         admin.admin_router
     )
     
-    dp.message.middleware(SubscriptionMiddleware(bot, config.CHANNEL_ID))
-    dp.callback_query.middleware(SubscriptionMiddleware(bot, config.CHANNEL_ID))
+    dp.message.middleware(AddUser(db=postgres_db, kafka=kafka_producer, BOT_TYPE=config.BOT_TYPE))
+    # dp.message.middleware(SubscriptionMiddleware(bot, config.CHANNEL_ID))
+    # dp.callback_query.middleware(SubscriptionMiddleware(bot, config.CHANNEL_ID))
     dp.message.middleware(DailyUser(redis=redis_conn, kafka=kafka_producer, BOT_TYPE=config.BOT_TYPE))
 
     await dp.start_polling(bot)
