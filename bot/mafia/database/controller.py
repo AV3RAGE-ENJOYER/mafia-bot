@@ -15,14 +15,17 @@ class PostgresDatabase:
 
     def reconnect(method):
         def decorator(self, *args):
+            print(f"Executing DB method: '{method.__name__}' ...")
             try:
-                print(f"Executing DB method: '{method.__name__}' ...")
                 return method(self, *args)
-            except Exception as e:
-                print(e)
+            except psycopg2.OperationalError as e:
+                print(f"Connection closed. Reconnecting...\n{e}")
                 self.conn = psycopg2.connect(self.DB_URL)
                 self.cursor = self.conn.cursor()
-                print(f"Executing DB method: '{method.__name__}' ...")
+                return method(self, *args)
+            except psycopg2.errors.InFailedSqlTransaction as e:
+                print(f"DB Transaction failed. Rolling back...\n{e}")
+                self.conn.rollback()
                 return method(self, *args)
 
         return decorator

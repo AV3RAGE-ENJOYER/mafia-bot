@@ -53,8 +53,8 @@ async def main() -> None:
     )
     
     dp.message.middleware(AddUser(db=postgres_db, kafka=kafka_producer, BOT_TYPE=config.BOT_TYPE))
-    # dp.message.middleware(SubscriptionMiddleware(bot, config.CHANNEL_ID))
-    # dp.callback_query.middleware(SubscriptionMiddleware(bot, config.CHANNEL_ID))
+    dp.message.middleware(SubscriptionMiddleware(bot, config.CHANNEL_ID))
+    dp.callback_query.middleware(SubscriptionMiddleware(bot, config.CHANNEL_ID))
     dp.message.middleware(DailyUser(redis=redis_conn, kafka=kafka_producer, BOT_TYPE=config.BOT_TYPE))
 
     await dp.start_polling(bot)
