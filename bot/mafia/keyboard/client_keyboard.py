@@ -1,3 +1,6 @@
+import config
+
+from responses import responses
 from aiogram.utils.keyboard import ReplyKeyboardBuilder, InlineKeyboardBuilder
 
 kb_client_builder = ReplyKeyboardBuilder()
@@ -48,15 +51,15 @@ kb_buy = kb_buy_builder.as_markup()
 # ROLES
 
 kb_roles_builder = InlineKeyboardBuilder()
-kb_roles_builder.button(text="Пожиратели смерти", callback_data="vil")
-kb_roles_builder.button(text="Темный лорд", callback_data="dl")
-kb_roles_builder.button(text="Отряд Дамблдора", callback_data="her")
-kb_roles_builder.button(text="Целитель", callback_data="doc")
-kb_roles_builder.button(text="Хранитель азкабана", callback_data="dem")
-kb_roles_builder.button(text="Плохой директор", callback_data="bad")
-kb_roles_builder.button(text="Принц-полукровка", callback_data="pri")
-kb_roles_builder.button(text="Профессор", callback_data="pol")
-kb_roles_builder.button(text="Автор", callback_data="aut")
+kb_roles_builder.button(text=responses["vil_kb"], callback_data="vil")
+kb_roles_builder.button(text=responses["dl_kb"], callback_data="dl")
+kb_roles_builder.button(text=responses["her_kb"], callback_data="her")
+kb_roles_builder.button(text=responses["doc_kb"], callback_data="doc")
+kb_roles_builder.button(text=responses["dem_kb"], callback_data="dem")
+kb_roles_builder.button(text=responses["bad_kb"], callback_data="bad")
+kb_roles_builder.button(text=responses["pri_kb"], callback_data="pri")
+kb_roles_builder.button(text=responses["pol_kb"], callback_data="pol")
+kb_roles_builder.button(text=responses["aut_kb"], callback_data="aut")
 kb_roles_builder.adjust(2, repeat=True)
 
 kb_roles = kb_roles_builder.as_markup()

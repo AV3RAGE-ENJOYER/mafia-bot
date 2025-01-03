@@ -1,12 +1,12 @@
 -- +goose Up
-CREATE TABLE public.admins (
+CREATE TABLE IF NOT EXISTS public.admins (
     user_id BIGINT NOT NULL
 );
 
 
 ALTER TABLE public.admins OWNER TO postgres;
 
-CREATE TABLE public.users (
+CREATE TABLE IF NOT EXISTS public.users (
     user_id BIGINT NOT NULL,
     username text,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP

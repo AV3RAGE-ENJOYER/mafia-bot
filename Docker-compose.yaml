@@ -1,9 +1,21 @@
 version: '3.9'
 
 services:
-  bot:
+  bot1:
     image: magfia_bot:v1
     container_name: magfia_bot
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  bot2:
+    image: minefia_bot:v1
+    container_name: minefia_bot
     restart: unless-stopped
     depends_on:
       postgres:
