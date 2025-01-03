@@ -1,5 +1,4 @@
-import config
-
+from mafia.config import BOT_TYPE
 from responses import responses
 from aiogram.utils.keyboard import ReplyKeyboardBuilder, InlineKeyboardBuilder
 
@@ -51,15 +50,15 @@ kb_buy = kb_buy_builder.as_markup()
 # ROLES
 
 kb_roles_builder = InlineKeyboardBuilder()
-kb_roles_builder.button(text=responses["vil_kb"], callback_data="vil")
-kb_roles_builder.button(text=responses["dl_kb"], callback_data="dl")
-kb_roles_builder.button(text=responses["her_kb"], callback_data="her")
-kb_roles_builder.button(text=responses["doc_kb"], callback_data="doc")
-kb_roles_builder.button(text=responses["dem_kb"], callback_data="dem")
-kb_roles_builder.button(text=responses["bad_kb"], callback_data="bad")
-kb_roles_builder.button(text=responses["pri_kb"], callback_data="pri")
-kb_roles_builder.button(text=responses["pol_kb"], callback_data="pol")
-kb_roles_builder.button(text=responses["aut_kb"], callback_data="aut")
+kb_roles_builder.button(text=responses[BOT_TYPE]["vil_kb"], callback_data="vil")
+kb_roles_builder.button(text=responses[BOT_TYPE]["dl_kb"], callback_data="dl")
+kb_roles_builder.button(text=responses[BOT_TYPE]["her_kb"], callback_data="her")
+kb_roles_builder.button(text=responses[BOT_TYPE]["doc_kb"], callback_data="doc")
+kb_roles_builder.button(text=responses[BOT_TYPE]["dem_kb"], callback_data="dem")
+kb_roles_builder.button(text=responses[BOT_TYPE]["bad_kb"], callback_data="bad")
+kb_roles_builder.button(text=responses[BOT_TYPE]["pri_kb"], callback_data="pri")
+kb_roles_builder.button(text=responses[BOT_TYPE]["pol_kb"], callback_data="pol")
+kb_roles_builder.button(text=responses[BOT_TYPE]["aut_kb"], callback_data="aut")
 kb_roles_builder.adjust(2, repeat=True)
 
 kb_roles = kb_roles_builder.as_markup()
@@ -67,7 +66,7 @@ kb_roles = kb_roles_builder.as_markup()
 # CHANNEL
 
 kb_check_menu_builder = InlineKeyboardBuilder()
-kb_check_menu_builder.button(text="ПОДПИСАТЬСЯ", url="https://t.me/magfiamt")
+kb_check_menu_builder.button(text="ПОДПИСАТЬСЯ", url=responses[BOT_TYPE]["url"])
 kb_check_menu_builder.button(text="ПОДТВЕРДИТЬ ПОДПИСКУ", callback_data="sub_done")
 kb_check_menu_builder.adjust(1, 1)
 
