@@ -63,6 +63,10 @@ async def exit_button(message: Message, responses: dict):
 async def buy_game(message: Message, responses: dict):
     await message.answer(text=responses["buy_game"], reply_markup=kb_buy)
 
+@client_router.message(F.text == "Купить майнфию")
+async def buy_game(message: Message, responses: dict):
+    await message.answer(text=responses["buy_game"], reply_markup=kb_buy)
+
 @client_router.message(F.text == "Челленджи")
 async def beans(message: Message, responses: dict):
     await message.answer(text=responses["beans"], reply_markup=kb_game)
