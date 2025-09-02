@@ -1,7 +1,7 @@
 import json
 
 from mafia.database.controller import PostgresDatabase
-from confluent_kafka import Producer
+# from confluent_kafka import Producer
 
 class AddUser:
     def __init__(self, db: PostgresDatabase, BOT_TYPE):
