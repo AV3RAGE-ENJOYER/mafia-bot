@@ -35,8 +35,7 @@ dp = Dispatcher(
     storage=RedisStorage(redis_conn), 
     responses=responses[config.BOT_TYPE],
     redis=redis_conn, 
-    db=postgres_db, 
-    kafka=kafka_producer
+    db=postgres_db
 )
 
 async def main() -> None:
@@ -52,10 +51,10 @@ async def main() -> None:
         admin.admin_router
     )
     
-    dp.message.middleware(AddUser(db=postgres_db, kafka=kafka_producer, BOT_TYPE=config.BOT_TYPE))
+    dp.message.middleware(AddUser(db=postgres_db, BOT_TYPE=config.BOT_TYPE))
     dp.message.middleware(SubscriptionMiddleware(bot, config.CHANNEL_ID))
     dp.callback_query.middleware(SubscriptionMiddleware(bot, config.CHANNEL_ID))
-    dp.message.middleware(DailyUser(redis=redis_conn, kafka=kafka_producer, BOT_TYPE=config.BOT_TYPE))
+    dp.message.middleware(DailyUser(redis=redis_conn, BOT_TYPE=config.BOT_TYPE))
 
     await dp.start_polling(bot)
     

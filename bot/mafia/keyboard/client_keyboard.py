@@ -8,7 +8,7 @@ kb_client_builder.button(text="Сюжет")
 kb_client_builder.button(text="Ход игры")
 kb_client_builder.button(text="Роли")
 kb_client_builder.button(text="Челленджи")
-kb_client_builder.button(text=responses["buy"])
+kb_client_builder.button(text=responses[BOT_TYPE]["buy"])
 
 kb_client_builder.adjust(3, 1)
 
