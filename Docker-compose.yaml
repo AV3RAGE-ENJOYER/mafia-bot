@@ -8,8 +8,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      kafka:
-        condition: service_healthy
+      # kafka:
+      #   condition: service_healthy
       redis:
         condition: service_healthy
 
@@ -20,8 +20,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      kafka:
-        condition: service_healthy
+      # kafka:
+      #   condition: service_healthy
       redis:
         condition: service_healthy
 
@@ -31,14 +31,14 @@ services:
       postgres:
         condition: service_healthy
 
-  prometheus_metrics:
-    image: mafia_prometheus_metrics:v1
-    restart: unless-stopped
-    ports:
-      - 8081:8081
-    depends_on:
-      kafka:
-        condition: service_healthy
+  # prometheus_metrics:
+  #   image: mafia_prometheus_metrics:v1
+  #   restart: unless-stopped
+  #   ports:
+  #     - 8081:8081
+  #   depends_on:
+  #     kafka:
+  #       condition: service_healthy
 
   postgres:
     image: postgres:latest
@@ -59,32 +59,32 @@ services:
       timeout: 5s
       retries: 5
 
-  zookeeper:
-    image: confluentinc/cp-zookeeper:latest
-    ports:
-      - "32181:32181"
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 32181
-      ZOOKEEPER_TICK_TIME: 2000
+  # zookeeper:
+  #   image: confluentinc/cp-zookeeper:latest
+  #   ports:
+  #     - "32181:32181"
+  #   environment:
+  #     ZOOKEEPER_CLIENT_PORT: 32181
+  #     ZOOKEEPER_TICK_TIME: 2000
 
-  kafka:
-    image: confluentinc/cp-kafka:latest
-    ports:
-     - "9092:9092"
-    depends_on:
-      - zookeeper
-    environment:
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:32181
-      KAFKA_ADVERTISED_LISTENERS: LISTENER_INTERNAL://kafka:29092,LISTENER_EXTERNAL://localhost:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_INTERNAL:PLAINTEXT,LISTENER_EXTERNAL:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_INTERNAL
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
-    healthcheck:
-      test: nc -z localhost 9092 || exit -1
-      start_period: 15s
-      interval: 5s
-      timeout: 10s
-      retries: 10
+  # kafka:
+  #   image: confluentinc/cp-kafka:latest
+  #   ports:
+  #    - "9092:9092"
+  #   depends_on:
+  #     - zookeeper
+  #   environment:
+  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:32181
+  #     KAFKA_ADVERTISED_LISTENERS: LISTENER_INTERNAL://kafka:29092,LISTENER_EXTERNAL://localhost:9092
+  #     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_INTERNAL:PLAINTEXT,LISTENER_EXTERNAL:PLAINTEXT
+  #     KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_INTERNAL
+  #     KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+  #   healthcheck:
+  #     test: nc -z localhost 9092 || exit -1
+  #     start_period: 15s
+  #     interval: 5s
+  #     timeout: 10s
+  #     retries: 10
 
   redis:
     image: redis:latest
@@ -99,26 +99,26 @@ services:
       retries: 5
     volumes:
       - redis_data:/data
-  prometheus:
-    image: prom/prometheus:v2.40.4
-    container_name: prometheus-server
-    ports:
-      - 9090:9090
-    volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+  # prometheus:
+  #   image: prom/prometheus:v2.40.4
+  #   container_name: prometheus-server
+  #   ports:
+  #     - 9090:9090
+  #   volumes:
+  #     - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
 
-  grafana:
-    image: grafana/grafana:9.3.0
-    ports:
-      - 3000:3000
-    environment:
-      - GF_SECUTIRY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=password
-    volumes:
-      - ./grafana/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
-      - grafana:/var/lib/grafana
+  # grafana:
+  #   image: grafana/grafana:9.3.0
+  #   ports:
+  #     - 3000:3000
+  #   environment:
+  #     - GF_SECUTIRY_ADMIN_USER=admin
+  #     - GF_SECURITY_ADMIN_PASSWORD=password
+  #   volumes:
+  #     - ./grafana/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+  #     - grafana:/var/lib/grafana
 
 volumes:
   postgres_data:
-  grafana:
+  # grafana:
   redis_data:
