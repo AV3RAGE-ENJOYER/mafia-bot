@@ -5,7 +5,7 @@ import config
 import socket
 
 from redis.asyncio import Redis
-from confluent_kafka import Producer
+# from confluent_kafka import Producer
 
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
@@ -22,12 +22,12 @@ from database.controller import PostgresDatabase
 redis_conn = Redis(host=config.REDIS_HOST, decode_responses=True)
 postgres_db = PostgresDatabase(config.POSTGRES_URL)
 
-kafka_producer = Producer(
-    {
-        'bootstrap.servers': 'kafka:29092', 
-        'client.id': socket.gethostname()
-    }
-)
+# kafka_producer = Producer(
+#     {
+#         'bootstrap.servers': 'kafka:29092', 
+#         'client.id': socket.gethostname()
+#     }
+# )
 
 bot = Bot(token=config.BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 
